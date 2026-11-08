@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDI & Cockpit de Internato - Acompanhamento 1º ao 12º Período</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --secondary: #0d9488;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --purple: #7c3aed;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.5; padding-bottom: 60px; }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 18px 20px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+    .header-content { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .header-title h1 { font-size: 1.35rem; font-weight: 700; }
+    .header-title p { font-size: 0.85rem; opacity: 0.9; }
+
+    .header-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .btn {
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-primary { background: white; color: var(--primary); }
+    .btn-primary:hover { background: #f1f5f9; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-dark { background: #334155; color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+
+    .nav-tabs {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .tabs-container { max-width: 1200px; margin: 0 auto; display: flex; overflow-x: auto; }
+    .tab-btn {
+      padding: 12px 16px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+    .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-btn.highlight { color: var(--purple); }
+    .tab-btn.highlight.active { border-bottom-color: var(--purple); }
+
+    .container { max-width: 1200px; margin: 20px auto; padding: 0 16px; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .card-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+
+    .form-group { margin-bottom: 12px; }
+    label { display: block; font-size: 0.8125rem; font-weight: 600; color: #334155; margin-bottom: 4px; }
+    .helper { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; display: block; }
+    input[type="text"], input[type="number"], input[type="email"], select, textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      background-color: #fff;
+    }
+    textarea { min-height: 64px; resize: vertical; }
+
+    table.data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; margin-top: 10px; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+    table.data-table th { background: #f8fafc; font-weight: 600; color: #334155; }
+
+    /* Métricas / Badges */
+    .cockpit-stat {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 14px;
+      text-align: center;
+      border-left: 4px solid var(--primary);
+    }
+    .cockpit-stat strong { display: block; font-size: 1.4rem; color: var(--primary); }
+    .cockpit-stat span { font-size: 0.8rem; color: var(--muted); }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 0.75rem;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .badge-basico { background: #e0f2fe; color: #0369a1; }
+    .badge-clinico { background: #fef3c7; color: #b45309; }
+    .badge-internato { background: #dcfce7; color: #15803d; }
+
+    .goal-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      background: #fff;
+    }
+    .goal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+
+    /* Estilos estritos para exportação do PDF institucional */
+    @media print {
+      body { background: white; color: black; font-size: 9pt; padding: 0; }
+      header, .nav-tabs, .no-print, .btn, #aba-lancar-notas, #aba-analise-notas, #aba-cockpit { display: none !important; }
+      .container { max-width: 100%; margin: 0; padding: 0; }
+      #aba-ident, #aba-mapa, #aba-retro, #aba-soft, #aba-metas, #aba-pacto { display: block !important; }
+      .card { border: none; box-shadow: none; padding: 6px 0; margin-bottom: 10px; page-break-inside: avoid; }
+      .card-title { color: black; border-bottom: 1px solid #000; padding-bottom: 2px; margin-bottom: 6px; font-size: 10.5pt; }
+      input, select, textarea { border: none !important; padding: 0 !important; background: transparent !important; font-size: 8.5pt !important; }
+      .print-header { display: block !important; margin-bottom: 12px; border-bottom: 2px solid #000; padding-bottom: 4px; }
+      .chart-container { display: none; }
+    }
+    .print-header { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <h1>PDI • Trilha de Conhecimento & Cockpit do Internato</h1>
+        <p>Departamento Ético-Legal e do Exercício Profissional da Medicina | 1º ao 12º Período</p>
+      </div>
+      <div class="header-actions no-print">
+        <button class="btn btn-primary" onclick="salvarLocal()">💾 Salvar</button>
+        <button class="btn btn-dark" onclick="exportarBackupJSON()">⬇️ Backup JSON</button>
+        <button class="btn btn-dark" onclick="document.getElementById('importFile').click()">⬆️ Carregar JSON</button>
+        <input type="file" id="importFile" style="display:none" onchange="importarBackupJSON(this)">
+        <button class="btn btn-success" onclick="imprimirPDF()">📄 Exportar PDF Oficial</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="print-header container">
+    <h2 style="font-size: 12pt; text-transform: uppercase;">PDI: Trilha de Conhecimento — Transição para o Internato</h2>
+    <p style="font-size: 8.5pt;">Exercício Profissional III, Perícia Médica II e Boas Práticas — 8º Período | Rubrica do Processo (30 Pontos)</p>
+  </div>
+
+  <nav class="nav-tabs">
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="trocarAba('aba-ident')">1. Identificação</button>
+      <button class="tab-btn" onclick="trocarAba('aba-mapa')">2. Mapa DCN 2025</button>
+      <button class="tab-btn" onclick="trocarAba('aba-retro')">3. Diagnóstico (3+3)</button>
+      <button class="tab-btn" onclick="trocarAba('aba-soft')">4. Comp. Relacionais</button>
+      <button class="tab-btn" onclick="trocarAba('aba-metas')">5. Metas Formais</button>
+      <button class="tab-btn" onclick="trocarAba('aba-pacto')">6. Mercado & Pacto</button>
+      <button class="tab-btn highlight" onclick="trocarAba('aba-lancar-notas')">📝 Lançar Notas (1º-12º)</button>
+      <button class="tab-btn highlight" onclick="trocarAba('aba-analise-notas')">📈 Análise & Gráficos</button>
+      <button class="tab-btn highlight" onclick="trocarAba('aba-cockpit')">🎯 Cockpit Internato</button>
+    </div>
+  </nav>
+
+  <main class="container">
+
+    <!-- ABA 1: IDENTIFICAÇÃO -->
+    <section id="aba-ident" class="tab-content active">
+      <div class="card">
+        <h2 class="card-title">1. Identificação do Estudante</h2>
+        <div class="grid-2">
+          <div class="form-group"><label>Nome Completo:</label><input type="text" id="ident_nome" placeholder="Ex: Hugo Moura"></div>
+          <div class="form-group"><label>Matrícula:</label><input type="text" id="ident_matr" placeholder="Ex: 202312345"></div>
+          <div class="form-group"><label>Turma:</label><select id="ident_turma"><option value="">Selecione...</option><option value="A">Turma A</option><option value="B">Turma B</option><option value="C">Turma C</option><option value="D">Turma D</option></select></div>
+          <div class="form-group"><label>Período / Ano:</label><input type="text" id="ident_periodo" value="8º período - 2026.2"></div>
+          <div class="form-group"><label>E-mail Institucional:</label><input type="email" id="ident_email" placeholder="seu.nome@aluno.fcmmg.br"></div>
+          <div class="form-group"><label>Data de Preenchimento:</label><input type="text" id="ident_data" value="08/11/2026"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 2: MAPA DCN 2025 -->
+    <section id="aba-mapa" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">2. Mapa das Oito Famílias de Competência (DCN 2025)</h2>
+        <div class="grid-2 no-print" style="margin-bottom: 16px;">
+          <div class="chart-container" style="position: relative; height: 300px; max-width: 440px; margin: auto;">
+            <canvas id="radarChart"></canvas>
+          </div>
+          <div style="background: #f1f5f9; padding: 12px; border-radius: 6px; font-size: 0.8125rem;">
+            <strong>Graus de Autonomia (EPAs):</strong>
+            <ul style="margin-left: 18px; margin-top: 6px; color: #475569;">
+              <li><strong>1:</strong> Iniciante (orientação passo a passo).</li>
+              <li><strong>2:</strong> Em desenvolvimento (supervisão direta).</li>
+              <li><strong>3:</strong> Funcional (supervisão disponível; situações típicas).</li>
+              <li><strong>4:</strong> Consolidado (autonomia em típicas e atípicas).</li>
+              <li><strong>5:</strong> Referência (ensina colegas).</li>
+            </ul>
+          </div>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr><th style="width: 32%;">Família</th><th style="width: 14%;">Nível (1-5)</th><th>Evidência em uma linha (fato/nota/feedback)</th></tr>
+          </thead>
+          <tbody id="tabela-familias-corpo"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA 3: DIAGNÓSTICO RETROSPECTIVO -->
+    <section id="aba-retro" class="tab-content">
+      <div class="card"><h2 class="card-title">3. Três Pontos de Fraqueza (O quê? Como sei? E daí?)</h2><div id="container-fraquezas"></div></div>
+      <div class="card"><h2 class="card-title">4. Três Disciplinas em que Encontrei Fraqueza</h2><div id="container-disc-fraqueza"></div></div>
+      <div class="card"><h2 class="card-title">5. Três Pontos de Fortaleza</h2><div id="container-fortalezas"></div></div>
+      <div class="card"><h2 class="card-title">6. Três Disciplinas-Chave (Sustentação Clínica)</h2><div id="container-disc-chave"></div></div>
+    </section>
+
+    <!-- ABA 4: COMP. RELACIONAIS -->
+    <section id="aba-soft" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">7. Competências Relacionais (Soft Skills - DCN 2025)</h2>
+        <table class="data-table">
+          <thead><tr><th style="width: 25%;">Dimensão</th><th style="width: 10%;">Nível</th><th style="width: 33%;">Situação Real</th><th>Compromisso</th></tr></thead>
+          <tbody id="tabela-soft-skills"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA 5: METAS FORMAIS -->
+    <section id="aba-metas" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">8. Plano de Ação Prospectivo (Próximos 24 Meses)</h2>
+        <div id="container-metas-smart"></div>
+      </div>
+    </section>
+
+    <!-- ABA 6: MERCADO & PACTO -->
+    <section id="aba-pacto" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">9. Leitura de Carreira e Mercado de Trabalho</h2>
+        <div class="form-group">
+          <textarea id="carreira_texto" rows="4" placeholder="Onde me imagino atuando 2 anos após a formatura..."></textarea>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">10. Pacto de Releitura e Compromisso</h2>
+        <div class="grid-3">
+          <div class="form-group"><label>1ª Releitura (fim do 10º per):</label><input type="text" id="pacto_data1" value="Dezembro/2027"></div>
+          <div class="form-group"><label>2ª Releitura (fim do 12º per):</label><input type="text" id="pacto_data2" value="Novembro/2028"></div>
+          <div class="form-group"><label>Assinatura (Nome Completo):</label><input type="text" id="pacto_assinatura" placeholder="Nome Completo"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2 class="card-title">11. Declaração do Uso de Inteligência Artificial</h2>
+        <div class="form-group">
+          <label><input type="radio" name="decl_ia" value="sim" checked> Utilizei ferramentas de IA para organizar ideias e estruturar o plano.</label>
+          <input type="text" id="decl_ia_quais" value="Perplexity AI - Estruturação do dashboard interativo e acompanhamento">
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 7: MÓDULO EXCLUSIVO DE LANÇAMENTO E GESTÃO DE NOTAS (1º AO 12º) -->
+    <section id="aba-lancar-notas" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Lançar Nova Disciplina / Estágio (1º ao 12º Período)</h2>
+        <p class="helper">Cadastre disciplinas do Ciclo Básico, Ciclo Clínico e Rodízios do Internato. Os dados alimentam a inteligência analítica do PDI.</p>
+        
+        <form id="form-add-nota" onsubmit="event.preventDefault(); adicionarDisciplinaForm();" style="margin-top: 14px;">
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Nome da Disciplina / Rodízio:</label>
+              <input type="text" id="novo_nome" placeholder="Ex: Semiologia Médica / Pediatria Hospitalar" required>
+            </div>
+            <div class="form-group">
+              <label>Período Curricular:</label>
+              <select id="novo_periodo" required onchange="ajustarCicloAutomatico()">
+                <option value="1">1º Período (Básico)</option>
+                <option value="2">2º Período (Básico)</option>
+                <option value="3">3º Período (Básico)</option>
+                <option value="4">4º Período (Básico)</option>
+                <option value="5">5º Período (Clínico)</option>
+                <option value="6">6º Período (Clínico)</option>
+                <option value="7">7º Período (Clínico)</option>
+                <option value="8" selected>8º Período (Clínico / Transição)</option>
+                <option value="9">9º Período (Internato I)</option>
+                <option value="10">10º Período (Internato II)</option>
+                <option value="11">11º Período (Internato III)</option>
+                <option value="12">12º Período (Internato IV)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ciclo Formativo:</label>
+              <select id="novo_ciclo">
+                <option value="Basico">Ciclo Básico (1º-4º)</option>
+                <option value="Clinico" selected>Ciclo Clínico (5º-8º)</option>
+                <option value="Internato">Internato Médico (9º-12º)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <div class="form-group">
+              <label>Área da Matriz ENAMED / Especialidade:</label>
+              <select id="novo_enamed">
+                <option value="Clinica">Clínica Médica</option>
+                <option value="Cirurgia">Cirurgia Geral</option>
+                <option value="Pediatria">Pediatria</option>
+                <option value="GO">Ginecologia e Obstetrícia</option>
+                <option value="MFC">Medicina de Família / Atenção Primária</option>
+                <option value="Urgencia">Urgência e Emergência</option>
+                <option value="Bases">Bases & Propedêutica</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nota Final (0 - 100):</label>
+              <input type="number" id="nova_nota" min="0" max="100" step="0.1" placeholder="Ex: 82.5" required>
+            </div>
+            <div class="form-group" style="display: flex; align-items: flex-end;">
+              <button type="submit" class="btn btn-success" style="width: 100%; height: 38px; justify-content: center;">➕ Salvar Disciplina</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tabela com Filtros de Visualização -->
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px;">
+          <h2 class="card-title" style="margin-bottom: 0;">Histórico de Disciplinas Cadastradas</h2>
+          <div style="display: flex; gap: 8px;">
+            <select id="filtro_ciclo" onchange="renderizarTabelaNotasFiltrada()" style="width: 180px;">
+              <option value="Todos">Todos os Ciclos</option>
+              <option value="Basico">Apenas Ciclo Básico (1º-4º)</option>
+              <option value="Clinico">Apenas Ciclo Clínico (5º-8º)</option>
+              <option value="Internato">Apenas Internato (9º-12º)</option>
+            </select>
+            <select id="filtro_periodo" onchange="renderizarTabelaNotasFiltrada()" style="width: 150px;">
+              <option value="Todos">Todos os Períodos</option>
+              ${[1,2,3,4,5,6,7,8,9,10,11,12].map(p => `<option value="${p}">${p}º Período</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Disciplina / Rodízio</th>
+              <th style="width: 10%;">Período</th>
+              <th style="width: 14%;">Ciclo</th>
+              <th style="width: 20%;">Eixo ENAMED</th>
+              <th style="width: 12%;">Nota</th>
+              <th style="width: 10%; text-align: center;">Excluir</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-notas-corpo"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA 8: PAINEL ANALÍTICO DE INTELIGÊNCIA DE NOTAS -->
+    <section id="aba-analise-notas" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Métricas de Desempenho e Diagnóstico Curricular</h2>
+        
+        <!-- Cards de Estatísticas Globais -->
+        <div class="grid-4" style="margin-bottom: 20px;">
+          <div class="cockpit-stat"><strong id="stat-media-geral">-</strong><span>Média Global (P1-P12)</span></div>
+          <div class="cockpit-stat"><strong id="stat-media-basico">-</strong><span>Ciclo Básico (P1-P4)</span></div>
+          <div class="cockpit-stat"><strong id="stat-media-clinico">-</strong><span>Ciclo Clínico (P5-P8)</span></div>
+          <div class="cockpit-stat"><strong id="stat-media-internato">-</strong><span>Internato (P9-P12)</span></div>
+        </div>
+
+        <!-- Alerta de Diagnóstico Automático para o PDI -->
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+          <strong style="color: var(--primary);">💡 Diagnóstico Automático para o PDI:</strong>
+          <div class="grid-2" style="margin-top: 8px; font-size: 0.85rem;">
+            <div>🔻 <strong>Menor Desempenho Registrado:</strong> <span id="diag-fraqueza">Nenhuma disciplina crítica identificada</span></div>
+            <div>⭐ <strong>Maior Desempenho / Fortaleza:</strong> <span id="diag-fortaleza">Nenhuma disciplina destaque identificada</span></div>
+          </div>
+        </div>
+
+        <!-- Gráficos Analíticos -->
+        <div class="grid-2">
+          <div style="border: 1px solid var(--border); border-radius: 6px; padding: 14px; background: #fff;">
+            <strong style="font-size: 0.9rem; color: var(--primary);">Evolução das Médias por Período (1º ao 12º)</strong>
+            <div style="height: 260px; margin-top: 10px;"><canvas id="chartEvolucaoPeriodo"></canvas></div>
+          </div>
+          <div style="border: 1px solid var(--border); border-radius: 6px; padding: 14px; background: #fff;">
+            <strong style="font-size: 0.9rem; color: var(--primary);">Perfil de Domínio: Eixos ENAMED</strong>
+            <div style="height: 260px; margin-top: 10px;"><canvas id="chartEnamedRadar"></canvas></div>
+          </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 16px;">
+          <div style="border: 1px solid var(--border); border-radius: 6px; padding: 14px; background: #fff;">
+            <strong style="font-size: 0.9rem; color: var(--primary);">Distribuição de Médias por Ciclo Curricular</strong>
+            <div style="height: 240px; margin-top: 10px;"><canvas id="chartCiclosDoughnut"></canvas></div>
+          </div>
+          <div style="border: 1px solid var(--border); border-radius: 6px; padding: 14px; background: #fff; font-size: 0.825rem; color: var(--muted); display:flex; flex-direction:column; justify-content:center;">
+            <h4 style="color: var(--text); margin-bottom: 6px;">Como utilizar na sua reflexão crítica:</h4>
+            <p style="margin-bottom: 6px;">1. Compare a média do <strong>Ciclo Clínico (P5-P8)</strong> com a Propedêutica: uma queda acentuada sugere lacuna de raciocínio diagnóstico ou sobrecarga.</p>
+            <p style="margin-bottom: 6px;">2. O radar do <strong>ENAMED</strong> indica para qual grande área você precisará dedicar metas de compensação durante o 9º ao 12º período.</p>
+            <p>3. Use os pontos de menor rendimento para responder com honestidade ao <strong>Item 4 (Disciplinas com Fraqueza)</strong> do PDI.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABA 9: COCKPIT DE ACOMPANHAMENTO DO INTERNATO -->
+    <section id="aba-cockpit" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Cockpit de Execução do Internato (9º ao 12º Período)</h2>
+        <div class="grid-3" style="margin: 16px 0;">
+          <div class="cockpit-stat"><strong id="stat-meta-progresso">0%</strong><span>Cumprimento das Metas</span></div>
+          <div class="cockpit-stat"><strong id="stat-releitura1">Pendente</strong><span>1º Checkpoint (10º Período)</span></div>
+          <div class="cockpit-stat"><strong id="stat-releitura2">Pendente</strong><span>2º Checkpoint (12º Período)</span></div>
+        </div>
+        <div id="cockpit-metas-cards"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const familias = [
+      "1. Cuidado integral e centrado na pessoa",
+      "2. Raciocínio clínico e decisão baseada em evidências",
+      "3. Comunicação e relação",
+      "4. Ética, legalidade e profissionalismo",
+      "5. Trabalho em equipe e liderança colaborativa",
+      "6. Gestão, políticas públicas e saúde coletiva",
+      "7. Tecnologia, inovação e saúde digital",
+      "8. Aprendizagem ao longo da vida e autocuidado"
+    ];
+
+    const softSkills = [
+      { nome: "Comunicação verbal", desc: "Clareza, linguagem acessível, explicar diagnóstico e conduta" },
+      { nome: "Comunicação não verbal e escuta", desc: "Postura, contato visual, acolhimento e escuta qualificada" },
+      { nome: "Comunicação escrita", desc: "Prontuário, atestados, laudos e documentos técnicos" },
+      { nome: "Trabalho em equipe e liderança", desc: "Atuação interprofissional, empatia, dar e receber feedback" },
+      { nome: "Ética e profissionalismo", desc: "Sigilo, conduta deontológica diante do erro próprio e alheio" },
+      { nome: "Autocuidado e sustentabilidade", desc: "Sono, rotina de estudo sustentável, reconhecimento de limites" }
+    ];
+
+    let radarChart;
+    let chartEvolucaoPeriodo;
+    let chartEnamedRadar;
+    let chartCiclosDoughnut;
+    let listaNotas = [];
+
+    function inicializarDashboard() {
+      // 1. Tabela Mapa DCN 2025
+      const corpoMapa = document.getElementById("tabela-familias-corpo");
+      corpoMapa.innerHTML = "";
+      familias.forEach((fam, idx) => {
+        corpoMapa.innerHTML += `
+          <tr>
+            <td><strong>${fam}</strong></td>
+            <td>
+              <select id="mapa_nivel_${idx}" onchange="atualizarRadar()">
+                <option value="1">1 - Iniciante</option>
+                <option value="2">2 - Em desenv.</option>
+                <option value="3" selected>3 - Funcional</option>
+                <option value="4">4 - Consolidado</option>
+                <option value="5">5 - Referência</option>
+              </select>
+            </td>
+            <td><input type="text" id="mapa_evid_${idx}" placeholder="Fato concreto, nota ou feedback em uma linha"></td>
+          </tr>
+        `;
+      });
+
+      montarSecaoTripla("container-fraquezas", "Fraqueza", true);
+      montarSecaoDisciplinas("container-disc-fraqueza", "Disciplina com Fraqueza", "O que não consolidei e por quê");
+      montarSecaoTripla("container-fortalezas", "Fortaleza", false);
+      montarSecaoDisciplinas("container-disc-chave", "Disciplina-Chave", "Por que é chave e qual competência sustenta");
+
+      // Soft skills
+      const corpoSoft = document.getElementById("tabela-soft-skills");
+      corpoSoft.innerHTML = "";
+      softSkills.forEach((skill, idx) => {
+        corpoSoft.innerHTML += `
+          <tr>
+            <td><strong>${skill.nome}</strong><br><small style="color:var(--muted)">${skill.desc}</small></td>
+            <td>
+              <select id="soft_nivel_${idx}">
+                <option value="1">1</option><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option><option value="5">5</option>
+              </select>
+            </td>
+            <td><textarea id="soft_sit_${idx}" placeholder="Situação real que ilustra..."></textarea></td>
+            <td><textarea id="soft_comp_${idx}" placeholder="Compromisso concreto para manter/melhorar..."></textarea></td>
+          </tr>
+        `;
+      });
+
+      // Metas
+      const containerMetas = document.getElementById("container-metas-smart");
+      containerMetas.innerHTML = "";
+      for (let i = 1; i <= 3; i++) {
+        containerMetas.innerHTML += `
+          <div style="background:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:14px;">
+            <h3 style="font-size:0.95rem; color:var(--primary); margin-bottom:10px;">Meta ${i} (Ataca a Fraqueza ${i})</h3>
+            <div class="grid-2">
+              <div class="form-group"><label>Família:</label><select id="meta_fam_${i}">${familias.map((f, idx) => `<option value="${idx+1}">${f}</option>`).join('')}</select></div>
+              <div class="form-group"><label>Resultado Observável:</label><input type="text" id="meta_res_${i}" placeholder="Ao final de..., serei capaz de..." oninput="atualizarCockpitCards()"></div>
+              <div class="form-group"><label>Ações Concretas:</label><input type="text" id="meta_acoes_${i}" placeholder="2 a 4 ações com frequência"></div>
+              <div class="form-group"><label>Onde e Quando:</label><input type="text" id="meta_onde_${i}" placeholder="Rodízio e período (ex: Clínica Médica / 9º per)"></div>
+              <div class="form-group"><label>Prazo Limite:</label><input type="text" id="meta_prazo_${i}" placeholder="Até a formatura"></div>
+              <div class="form-group"><label>Evidência Clara de Cumprimento:</label><input type="text" id="meta_evid_${i}" placeholder="Como saberei que cumpri (ex: 3 prescrições sem correções)"></div>
+            </div>
+          </div>
+        `;
+      }
+
+      criarGraficos();
+      carregarLocal();
+      atualizarCockpitCards();
+    }
+
+    function montarSecaoTripla(idContainer, tipo, isFraqueza) {
+      const container = document.getElementById(idContainer);
+      container.innerHTML = "";
+      for (let i = 1; i <= 3; i++) {
+        container.innerHTML += `
+          <div style="border:1px solid var(--border); border-radius:6px; padding:12px; margin-bottom:12px; background:#fff;">
+            <strong style="color:var(--primary); font-size:0.875rem;">${tipo} ${i}</strong>
+            <div class="grid-2" style="margin-top:8px;">
+              <div class="form-group"><label>Família:</label><select id="${tipo.toLowerCase()}_fam_${i}">${familias.map((f, idx) => `<option value="${idx+1}">${f}</option>`).join('')}</select></div>
+              <div class="form-group"><label>O quê? (Descrição específica):</label><input type="text" id="${tipo.toLowerCase()}_que_${i}" placeholder="Aspecto concreto"></div>
+              <div class="form-group"><label>Como sei? (Evidência real):</label><input type="text" id="${tipo.toLowerCase()}_como_${i}" placeholder="Nota, simulado, feedback"></div>
+              <div class="form-group"><label>E daí? (${isFraqueza ? 'Impacto no internato' : 'Sustentação clínica'}):</label><input type="text" id="${tipo.toLowerCase()}_edai_${i}" placeholder="Consequência prática nos rodízios"></div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function montarSecaoDisciplinas(idContainer, titulo, campoDesc) {
+      const container = document.getElementById(idContainer);
+      container.innerHTML = "";
+      for (let i = 1; i <= 3; i++) {
+        container.innerHTML += `
+          <div style="border:1px solid var(--border); border-radius:6px; padding:12px; margin-bottom:12px; background:#fff;">
+            <strong style="color:var(--secondary); font-size:0.875rem;">${titulo} ${i}</strong>
+            <div class="grid-3" style="margin-top:8px;">
+              <div class="form-group"><label>Disciplina:</label><input type="text" id="disc_${titulo.slice(0,4)}_${i}" placeholder="Nome da disciplina"></div>
+              <div class="form-group"><label>Período:</label><input type="text" id="disc_per_${titulo.slice(0,4)}_${i}" placeholder="Ex: 5º período"></div>
+              <div class="form-group"><label>Nota final autodeclarada:</label><input type="text" id="disc_nota_${titulo.slice(0,4)}_${i}" placeholder="Ex: 75"></div>
+            </div>
+            <div class="form-group"><label>${campoDesc}:</label><textarea id="disc_desc_${titulo.slice(0,4)}_${i}"></textarea></div>
+          </div>
+        `;
+      }
+    }
+
+    /* Gráficos Chart.js */
+    function criarGraficos() {
+      // 1. Radar das 8 Famílias
+      const ctxRadar = document.getElementById('radarChart').getContext('2d');
+      radarChart = new Chart(ctxRadar, {
+        type: 'radar',
+        data: {
+          labels: ['1. Cuidado', '2. Raciocínio', '3. Comunicação', '4. Ética', '5. Equipe', '6. Gestão', '7. Saúde Digital', '8. Autocuidado'],
+          datasets: [{
+            label: 'Nível de Autonomia',
+            data: [3, 3, 3, 3, 3, 3, 3, 3],
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            borderColor: 'rgba(30, 58, 138, 0.8)',
+            borderWidth: 2,
+            pointBackgroundColor: '#1e3a8a'
+          }]
+        },
+        options: { scales: { r: { min: 0, max: 5, ticks: { stepSize: 1 } } }, plugins: { legend: { display: false } }, maintainAspectRatio: false }
+      });
+
+      // 2. Linha Temporal: Evolução das Médias por Período
+      const ctxEvolucao = document.getElementById('chartEvolucaoPeriodo').getContext('2d');
+      chartEvolucaoPeriodo = new Chart(ctxEvolucao, {
+        type: 'line',
+        data: {
+          labels: ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12'],
+          datasets: [{
+            label: 'Média do Período',
+            data: Array(12).fill(null),
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            fill: true,
+            tension: 0.3,
+            spanGaps: true
+          }]
+        },
+        options: { scales: { y: { min: 50, max: 100 } }, maintainAspectRatio: false }
+      });
+
+      // 3. Radar ENAMED
+      const ctxEnamed = document.getElementById('chartEnamedRadar').getContext('2d');
+      chartEnamedRadar = new Chart(ctxEnamed, {
+        type: 'radar',
+        data: {
+          labels: ['Clínica Médica', 'Cirurgia', 'Pediatria', 'GO', 'MFC/APS', 'Urgência', 'Bases'],
+          datasets: [{
+            label: 'Média ENAMED',
+            data: [0, 0, 0, 0, 0, 0, 0],
+            backgroundColor: 'rgba(13, 148, 136, 0.2)',
+            borderColor: '#0d9488',
+            pointBackgroundColor: '#0d9488'
+          }]
+        },
+        options: { scales: { r: { min: 50, max: 100 } }, plugins: { legend: { display: false } }, maintainAspectRatio: false }
+      });
+
+      // 4. Rosca por Ciclo
+      const ctxCiclos = document.getElementById('chartCiclosDoughnut').getContext('2d');
+      chartCiclosDoughnut = new Chart(ctxCiclos, {
+        type: 'doughnut',
+        data: {
+          labels: ['Ciclo Básico (P1-P4)', 'Ciclo Clínico (P5-P8)', 'Internato (P9-P12)'],
+          datasets: [{
+            data: [0, 0, 0],
+            backgroundColor: ['#0284c7', '#d97706', '#16a34a']
+          }]
+        },
+        options: { maintainAspectRatio: false }
+      });
+    }
+
+    function atualizarRadar() {
+      const novos = [];
+      for (let i = 0; i < 8; i++) {
+        novos.push(parseInt(document.getElementById(`mapa_nivel_${i}`).value) || 1);
+      }
+      radarChart.data.datasets[0].data = novos;
+      radarChart.update();
+    }
+
+    function trocarAba(idAba) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(idAba).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    /* MÓDULO EXCLUSIVO DE LANÇAMENTO E ANÁLISE DE NOTAS */
+    function ajustarCicloAutomatico() {
+      const p = parseInt(document.getElementById('novo_periodo').value);
+      const selectCiclo = document.getElementById('novo_ciclo');
+      if (p <= 4) selectCiclo.value = "Basico";
+      else if (p <= 8) selectCiclo.value = "Clinico";
+      else selectCiclo.value = "Internato";
+    }
+
+    function adicionarDisciplinaForm() {
+      const nome = document.getElementById('novo_nome').value.trim();
+      const periodo = parseInt(document.getElementById('novo_periodo').value);
+      const ciclo = document.getElementById('novo_ciclo').value;
+      const enamed = document.getElementById('novo_enamed').value;
+      const nota = parseFloat(document.getElementById('nova_nota').value);
+
+      if (!nome || isNaN(nota)) return;
+
+      listaNotas.push({ nome, periodo, ciclo, enamed, nota });
+      document.getElementById('novo_nome').value = '';
+      document.getElementById('nova_nota').value = '';
+
+      renderizarTabelaNotasFiltrada();
+      atualizarMetricasEGraficos();
+      alert(`Disciplina "${nome}" adicionada com sucesso!`);
+    }
+
+    function renderizarTabelaNotasFiltrada() {
+      const filtroCiclo = document.getElementById('filtro_ciclo').value;
+      const filtroPeriodo = document.getElementById('filtro_periodo').value;
+      const corpo = document.getElementById('tabela-notas-corpo');
+      corpo.innerHTML = '';
+
+      let filtradas = listaNotas.slice();
+      if (filtroCiclo !== 'Todos') filtradas = filtradas.filter(n => n.ciclo === filtroCiclo);
+      if (filtroPeriodo !== 'Todos') filtradas = filtradas.filter(n => n.periodo === parseInt(filtroPeriodo));
+
+      // Ordenar por período
+      filtradas.sort((a,b) => a.periodo - b.periodo);
+
+      filtradas.forEach((item, idxOriginal) => {
+        const idx = listaNotas.indexOf(item);
+        const badgeCiclo = item.ciclo === 'Basico' ? '<span class="badge badge-basico">Básico</span>' :
+                          (item.ciclo === 'Clinico' ? '<span class="badge badge-clinico">Clínico</span>' : '<span class="badge badge-internato">Internato</span>');
+
+        const enamedMap = { Clinica: 'Clínica Médica', Cirurgia: 'Cirurgia Geral', Pediatria: 'Pediatria', GO: 'Ginecologia/Obst.', MFC: 'MFC/Atenção Primária', Urgencia: 'Urgência/Emergência', Bases: 'Bases & Prop.' };
+
+        corpo.innerHTML += `
+          <tr>
+            <td><strong>${item.nome}</strong></td>
+            <td>${item.periodo}º Período</td>
+            <td>${badgeCiclo}</td>
+            <td>${enamedMap[item.enamed] || item.enamed}</td>
+            <td><strong>${item.nota.toFixed(1)}</strong></td>
+            <td style="text-align:center;"><button class="btn btn-danger" style="padding:2px 8px; font-size:0.75rem;" onclick="removerNota(${idx})">Excluir</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function removerNota(idx) {
+      if (confirm(`Remover "${listaNotas[idx].nome}"?`)) {
+        listaNotas.splice(idx, 1);
+        renderizarTabelaNotasFiltrada();
+        atualizarMetricasEGraficos();
+      }
+    }
+
+    function atualizarMetricasEGraficos() {
+      if (listaNotas.length === 0) {
+        document.getElementById('stat-media-geral').innerText = "-";
+        document.getElementById('stat-media-basico').innerText = "-";
+        document.getElementById('stat-media-clinico').innerText = "-";
+        document.getElementById('stat-media-internato').innerText = "-";
+        return;
+      }
+
+      // 1. Médias por Ciclo
+      const calcMedia = arr => arr.length ? (arr.reduce((a,b)=>a+b.nota,0) / arr.length).toFixed(1) : "-";
+      const basico = listaNotas.filter(n => n.ciclo === 'Basico');
+      const clinico = listaNotas.filter(n => n.ciclo === 'Clinico');
+      const internato = listaNotas.filter(n => n.ciclo === 'Internato');
+
+      document.getElementById('stat-media-geral').innerText = calcMedia(listaNotas);
+      document.getElementById('stat-media-basico').innerText = calcMedia(basico);
+      document.getElementById('stat-media-clinico').innerText = calcMedia(clinico);
+      document.getElementById('stat-media-internato').innerText = calcMedia(internato);
+
+      // 2. Diagnóstico Automático (Maior e Menor)
+      const ordenado = listaNotas.slice().sort((a,b) => a.nota - b.nota);
+      const menor = ordenado[0];
+      const maior = ordenado[ordenado.length - 1];
+      document.getElementById('diag-fraqueza').innerHTML = `<strong>${menor.nome}</strong> (${menor.periodo}º per) — Nota: ${menor.nota.toFixed(1)}`;
+      document.getElementById('diag-fortaleza').innerHTML = `<strong>${maior.nome}</strong> (${maior.periodo}º per) — Nota: ${maior.nota.toFixed(1)}`;
+
+      // 3. Atualizar Gráfico de Evolução (P1 a P12)
+      const mediasPorPeriodo = [];
+      for (let p = 1; p <= 12; p++) {
+        const doPeriodo = listaNotas.filter(n => n.periodo === p);
+        mediasPorPeriodo.push(doPeriodo.length ? (doPeriodo.reduce((a,b)=>a+b.nota,0)/doPeriodo.length) : null);
+      }
+      chartEvolucaoPeriodo.data.datasets[0].data = mediasPorPeriodo;
+      chartEvolucaoPeriodo.update();
+
+      // 4. Atualizar Radar ENAMED
+      const eixos = ['Clinica', 'Cirurgia', 'Pediatria', 'GO', 'MFC', 'Urgencia', 'Bases'];
+      const mediasEnamed = eixos.map(eixo => {
+        const doEixo = listaNotas.filter(n => n.enamed === eixo);
+        return doEixo.length ? (doEixo.reduce((a,b)=>a+b.nota,0)/doEixo.length).toFixed(1) : 0;
+      });
+      chartEnamedRadar.data.datasets[0].data = mediasEnamed;
+      chartEnamedRadar.update();
+
+      // 5. Atualizar Rosca de Ciclos
+      chartCiclosDoughnut.data.datasets[0].data = [
+        parseFloat(calcMedia(basico)) || 0,
+        parseFloat(calcMedia(clinico)) || 0,
+        parseFloat(calcMedia(internato)) || 0
+      ];
+      chartCiclosDoughnut.update();
+    }
+
+    /* Cockpit */
+    function atualizarCockpitCards() {
+      const container = document.getElementById('cockpit-metas-cards');
+      container.innerHTML = '';
+      for (let i = 1; i <= 3; i++) {
+        const res = document.getElementById(`meta_res_${i}`)?.value || `Meta ${i} não definida`;
+        const evid = document.getElementById(`meta_evid_${i}`)?.value || `Sem evidência cadastrada`;
+        container.innerHTML += `
+          <div class="goal-card">
+            <div class="goal-header">
+              <strong style="color:var(--primary);">🎯 Meta ${i}: ${res}</strong>
+              <select id="cockpit_status_${i}" onchange="recalcularCockpit()" style="width:160px;">
+                <option value="nao_iniciado">⚪ Não Iniciado</option>
+                <option value="em_andamento">🟡 Em Execução</option>
+                <option value="cumprida">🟢 Evidência Validada</option>
+              </select>
+            </div>
+            <p style="font-size:0.8125rem; color:var(--muted); margin-bottom:8px;"><strong>Evidência necessária:</strong> ${evid}</p>
+            <div class="grid-2">
+              <div>
+                <label>Registro de Fatos Clínicos / Feedbacks do Preceptor:</label>
+                <textarea id="cockpit_feedback_${i}" placeholder="Ex: Em 12/03/27, o preceptor validou prescrição do leito 14..."></textarea>
+              </div>
+              <div>
+                <label>Ajuste de Rota no 10º/12º Período (Releitura):</label>
+                <textarea id="cockpit_ajuste_${i}" placeholder="O que a realidade do internato exigiu adaptar..."></textarea>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      recalcularCockpit();
+    }
+
+    function recalcularCockpit() {
+      let cumpridas = 0;
+      for (let i = 1; i <= 3; i++) {
+        const val = document.getElementById(`cockpit_status_${i}`)?.value;
+        if (val === 'cumprida') cumpridas++;
+      }
+      const pct = Math.round((cumpridas / 3) * 100);
+      document.getElementById('stat-meta-progresso').innerText = `${pct}%`;
+    }
+
+    /* Persistência Local e Backups */
+    function salvarLocal() {
+      const dados = { inputs: {}, notas: listaNotas };
+      document.querySelectorAll('input, select, textarea').forEach(el => {
+        if (el.id && !el.id.startsWith('novo_')) dados.inputs[el.id] = el.value;
+      });
+      localStorage.setItem('pdi_cockpit_full_dados_v2', JSON.stringify(dados));
+      alert('Tudo salvo com sucesso no navegador!');
+    }
+
+    function carregarLocal() {
+      const salvo = localStorage.getItem('pdi_cockpit_full_dados_v2');
+      if (salvo) {
+        const dados = JSON.parse(salvo);
+        if (dados.inputs) {
+          Object.keys(dados.inputs).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = dados.inputs[id];
+          });
+        }
+        if (dados.notas && Array.isArray(dados.notas)) {
+          listaNotas = dados.notas;
+        }
+      } else {
+        // Mock inicial realista com disciplinas do 1º ao 12º período
+        listaNotas = [
+          { nome: "Anatomia Humana", periodo: 1, ciclo: "Basico", enamed: "Bases", nota: 78.0 },
+          { nome: "Fisiologia Médica", periodo: 2, ciclo: "Basico", enamed: "Bases", nota: 82.5 },
+          { nome: "Semiologia Médica I", periodo: 3, ciclo: "Basico", enamed: "Bases", nota: 85.0 },
+          { nome: "Farmacologia Clínica", periodo: 4, ciclo: "Basico", enamed: "Clinica", nota: 71.0 },
+          { nome: "Clínica Médica I (Cardio/Pneumo)", periodo: 5, ciclo: "Clinico", enamed: "Clinica", nota: 84.0 },
+          { nome: "Técnica Operatória e Cirurgia I", periodo: 5, ciclo: "Clinico", enamed: "Cirurgia", nota: 88.0 },
+          { nome: "Pediatria I (Puericultura)", periodo: 6, ciclo: "Clinico", enamed: "Pediatria", nota: 79.5 },
+          { nome: "Ginecologia e Obstetrícia I", periodo: 6, ciclo: "Clinico", enamed: "GO", nota: 86.0 },
+          { nome: "MFC e Atenção Primária", periodo: 7, ciclo: "Clinico", enamed: "MFC", nota: 90.0 },
+          { nome: "Urgência e Emergência / LabSim", periodo: 8, ciclo: "Clinico", enamed: "Urgencia", nota: 76.0 },
+          { nome: "Internato: Clínica Médica", periodo: 9, ciclo: "Internato", enamed: "Clinica", nota: 88.0 }
+        ];
+      }
+      renderizarTabelaNotasFiltrada();
+      atualizarMetricasEGraficos();
+      atualizarRadar();
+    }
+
+    function exportarBackupJSON() {
+      salvarLocal();
+      const dados = localStorage.getItem('pdi_cockpit_full_dados_v2');
+      const blob = new Blob([dados], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `PDI_Internato_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function importarBackupJSON(input) {
+      const file = input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const dados = JSON.parse(e.target.result);
+          localStorage.setItem('pdi_cockpit_full_dados_v2', JSON.stringify(dados));
+          carregarLocal();
+          atualizarCockpitCards();
+          alert('Backup importado com sucesso!');
+        } catch(err) {
+          alert('Arquivo JSON inválido.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function imprimirPDF() {
+      salvarLocal();
+      window.print();
+    }
+
+    window.onload = inicializarDashboard;
+  </script>
+</body>
+</html>
