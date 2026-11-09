@@ -115,7 +115,7 @@
     "decl_ia_quais": "Perplexity AI - Estruturação do dashboard interativo e acompanhamento",
     "nova_nota": "",
     "filtro_ciclo": "Todos",
-    "filtro_periodo": "3",
+    "filtro_periodo": "8",
     "cockpit_status_1": "nao_iniciado",
     "cockpit_feedback_1": "",
     "cockpit_ajuste_1": "",
@@ -357,7 +357,266 @@
       "ciclo": "Basico",
       "enamed": "Urgencia",
       "nota": 87
+    },
+    {
+      "nome": "Farmacologia Básica",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 87
+    },
+    {
+      "nome": "Fundamentos da Semiologia",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 95
+    },
+    {
+      "nome": "Humanização e Integralidade",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 91
+    },
+    {
+      "nome": "DIC IV",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 94
+    },
+    {
+      "nome": "Lingua Portuguesa II",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 96
+    },
+    {
+      "nome": "Medicina preventiva",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 95
+    },
+    {
+      "nome": "Microbiologia",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Clinica",
+      "nota": 92
+    },
+    {
+      "nome": "Patologia médica I",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Clinica",
+      "nota": 77
+    },
+    {
+      "nome": "PFC IV",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 99
+    },
+    {
+      "nome": "Propedeutica médica",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 95
+    },
+    {
+      "nome": "TH IV",
+      "periodo": 4,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 100
+    },
+    {
+      "nome": "Farmacologia II",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 92
+    },
+    {
+      "nome": "DIC V",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 96
+    },
+    {
+      "nome": "Patologia II",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Clinica",
+      "nota": 80
+    },
+    {
+      "nome": "PFC V",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "MFC",
+      "nota": 100
+    },
+    {
+      "nome": "Propedeutica II",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 96
+    },
+    {
+      "nome": "Saúde da criança e do Adolescente II",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Pediatria",
+      "nota": 95
+    },
+    {
+      "nome": "Semiologia II",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 100
+    },
+    {
+      "nome": "Tecnicas operatórias",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Cirurgia",
+      "nota": 91
+    },
+    {
+      "nome": "TH V",
+      "periodo": 5,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 88
+    },
+    {
+      "nome": "Clínica médica I",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "Clinica",
+      "nota": 90
+    },
+    {
+      "nome": "Ética",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 87
+    },
+    {
+      "nome": "Gestão em saúde",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "MFC",
+      "nota": 93
+    },
+    {
+      "nome": "DIC VI",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 97
+    },
+    {
+      "nome": "Medicina Baseadas em Evidências",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 96
+    },
+    {
+      "nome": "PFC VI",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "MFC",
+      "nota": 100
+    },
+    {
+      "nome": "Saúde da mulher I",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "GO",
+      "nota": 86
+    },
+    {
+      "nome": "TH VI",
+      "periodo": 6,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 96
+    },
+    {
+      "nome": "Clínica cirúrgica I",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Cirurgia",
+      "nota": 98
+    },
+    {
+      "nome": "Clínica médica II",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Clinica",
+      "nota": 95
+    },
+    {
+      "nome": "Perícia médica I",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Bases",
+      "nota": 89
+    },
+    {
+      "nome": "DIC VII",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 94
+    },
+    {
+      "nome": "MFC I",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "MFC",
+      "nota": 99
+    },
+    {
+      "nome": "PFC VII",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "MFC",
+      "nota": 100
+    },
+    {
+      "nome": "Saúde da criança e do Adolescente III",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Pediatria",
+      "nota": 85
+    },
+    {
+      "nome": "Psiquiatria",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Clinica",
+      "nota": 87
+    },
+    {
+      "nome": "TH VII",
+      "periodo": 7,
+      "ciclo": "Clinico",
+      "enamed": "Urgencia",
+      "nota": 99
     }
   ],
-  "dataHora": "08/11/2026, 21:08:37"
+  "dataHora": "08/11/2026, 21:20:59"
 }
