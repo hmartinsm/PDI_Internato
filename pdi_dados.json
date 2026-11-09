@@ -329,7 +329,35 @@
       "ciclo": "Basico",
       "enamed": "MFC",
       "nota": 100
+    },
+    {
+      "nome": "PSC II",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 93
+    },
+    {
+      "nome": "Psicologia",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 82
+    },
+    {
+      "nome": "Saúde da Criança e Adolescente I",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Pediatria",
+      "nota": 81
+    },
+    {
+      "nome": "TH III",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 87
     }
   ],
-  "dataHora": "08/11/2026, 21:06:20"
+  "dataHora": "08/11/2026, 21:08:37"
 }
