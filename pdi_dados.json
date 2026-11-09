@@ -40,12 +40,12 @@
     "disc_fraq_naocons_1": "Relações anatômicas, localização de cada nervo específico, plexo braquial, etc",
     "disc_fraq_porque_1": "Sempre aprendo muito fazendo associações e aprendendo a fundo os mecanismos fisiológicos. Em anatomia isso não é possivel. Hoje com o meu contato com a cirurgia consigo aprender muito melhor e vejo sentido em saber a fundo várias estruturas, mas na epoca tive dificuldade intensa de \"decorar só por decorar\". ",
     "disc_fraq_preciso_1": "Ainda preciso aprender várias estruturas anatomicas mais profundamente, irrigação, origem de nervos para a minha prática.",
-    "disc_fraq_nome_2": "",
-    "disc_fraq_per_2": "",
-    "disc_fraq_nota_2": "",
-    "disc_fraq_naocons_2": "",
-    "disc_fraq_porque_2": "",
-    "disc_fraq_preciso_2": "",
+    "disc_fraq_nome_2": "Embriologia",
+    "disc_fraq_per_2": "1",
+    "disc_fraq_nota_2": "81",
+    "disc_fraq_naocons_2": "O desenvolvimento de algumas estruturas, especialmente quando se trata de datas, marcos, ou a origem de cada tecido são um ponto em que ainda tenho bastante dificuldades.",
+    "disc_fraq_porque_2": "Muito do conteúdo eu apenas decorei para a prova e não verdadeiramente aprendi. Ademais, sinto que a própria materia não se aprofundava muito, deixando lacunas no meu conhecimento. ",
+    "disc_fraq_preciso_2": "Preciso de uma grande revisão sobre esse conteudo, reaprender bastante sobre marcos do desenvolvimento e origem de tecidos.",
     "disc_fraq_nome_3": "",
     "disc_fraq_per_3": "",
     "disc_fraq_nota_3": "",
@@ -124,7 +124,7 @@
     "decl_ia_quais": "Perplexity AI - Estruturação do dashboard interativo e acompanhamento",
     "nova_nota": "",
     "filtro_ciclo": "Todos",
-    "filtro_periodo": "2",
+    "filtro_periodo": "1",
     "cockpit_status_1": "nao_iniciado",
     "cockpit_feedback_1": "",
     "cockpit_ajuste_1": "",
@@ -627,5 +627,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 14:16:40"
+  "dataHora": "09/11/2026, 14:22:11"
 }
