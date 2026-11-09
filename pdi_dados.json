@@ -97,11 +97,11 @@
     "soft_nivel_5": "2",
     "soft_sit_5": "Dificuldade em manter qualidade de vida durante períodos academicos intensos.",
     "soft_comp_5": "Me comprometo a cuidar de mim, mesmo durante uma rotina academica difícil, tirar tempo para fazer coisas que eu gosto e ter autocuidado. ",
-    "meta_fam_1": "1",
-    "meta_res_1": "",
-    "meta_acoes_1": "",
-    "meta_onde_1": "",
-    "meta_prazo_1": "",
+    "meta_fam_1": "4",
+    "meta_res_1": "Ao final do 5 ano, serei capaz de administrar e gerir todos os procedimentos burocráticos sozinho, sem pedir ajudas ou orientações a colegas ou preceptores",
+    "meta_acoes_1": "Pedir para fazer formulários de agravos de notificação, ou pedidos de coleta de citopatológico até aprender a preenche-los corretamente. ",
+    "meta_onde_1": "Rodizios de Clinica médica e MFC",
+    "meta_prazo_1": "Ao final do 10 período",
     "meta_evid_1": "",
     "meta_fam_2": "1",
     "meta_res_2": "",
@@ -627,5 +627,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 16:06:36"
+  "dataHora": "09/11/2026, 16:13:31"
 }
