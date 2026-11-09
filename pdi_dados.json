@@ -30,14 +30,14 @@
     "fraqueza_que_2": "Autocuidado",
     "fraqueza_como_2": "É frequente durante semana de provas eu negligenciar a saude e bem estar. Muitas vezes passo muito tempo estudando e adio coisas básicas como comer ou relaxar",
     "fraqueza_edai_2": "A falta de autocuidado pode acarretar grandes prejuizos no futuro, especialmente durante meus estudos para a residência, quandoa carga de estudos será ainda maior e por um tempo prolongado",
-    "fraqueza_fam_3": "1",
-    "fraqueza_que_3": "",
-    "fraqueza_como_3": "",
-    "fraqueza_edai_3": "",
+    "fraqueza_fam_3": "6",
+    "fraqueza_que_3": "Gestão de recursos",
+    "fraqueza_como_3": "Feedback de uma professora dizendo que expando demais a propedeutica, as vezes procurando doenças de pouca prevalência em nossa população.",
+    "fraqueza_edai_3": "Expandir a propedeutica demais pode acarretar sérios problemas para o paciente como overdiagnosis and overtreatment, causando preujuizo e infringindo o conceito de prevenção quaternária.",
     "disc_fraq_nome_1": "Anatomia Humana II",
     "disc_fraq_per_1": "2 período",
-    "disc_fraq_nota_1": "",
-    "disc_fraq_desc_1": "",
+    "disc_fraq_nota_1": "64",
+    "disc_fraq_desc_1": "Tive bastante dificuldade em lembrar de estruturas apenas por lembrar. Hoje quando olho para trás vejo que ainda tenho lacunas em minha anatomia, mas entendo que isso está intimamente relacionado a minha falta de conhecimento de fisiologia do segundo período, o que prejudicou meu aprendizado severamente. Hoje consigo entender o motivo de várias relações anatômicas, mas ná epoca simplesmente não via motivo de \"lembrar só por lembrar\". Portanto, algumas lacunas no meu conhecimento anatômico ainda estão vazias. ",
     "disc_fraq_nome_2": "",
     "disc_fraq_per_2": "",
     "disc_fraq_nota_2": "",
@@ -618,5 +618,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 00:09:48"
+  "dataHora": "09/11/2026, 00:17:43"
 }
