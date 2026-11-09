@@ -74,11 +74,11 @@
     "disc_chav_nota_2": "92",
     "disc_chav_porque_2": "A transição do ciclo básico para o ciclo clínico me ajudou a fundamentar muito do conteúdo que já tinha visto em sala, mas aprender realmente como cada classe de medicamentos atua, suas interações, excreção e via de acesso foi algo muito importante para mim. Creio que um bom médico deve conhecer suas ferramentas antes de utiliza-las, e portanto tenho bastante apitidão pela farmacologia. ",
     "disc_chav_comp_2": "Raciocínio clínico e decisão baseada em evidências",
-    "disc_chav_nome_3": "",
-    "disc_chav_per_3": "",
-    "disc_chav_nota_3": "",
-    "disc_chav_porque_3": "",
-    "disc_chav_comp_3": "",
+    "disc_chav_nome_3": "Clínica cirúgica I",
+    "disc_chav_per_3": "7 período",
+    "disc_chav_nota_3": "98",
+    "disc_chav_porque_3": "Meu primeiro contato com a área cirúrgica foi durante a matéria de \"Tecnicas Operatórias\", mas foi em clínica cirúrgica I em que eu realmente me encontrei dentro da áreas da medicina. O contato direto com o paciente, além da proatividade no tratamento dos pacientes me atraiu muito, e sinto que descobri uma área da medicina que combina comigo.",
+    "disc_chav_comp_3": "2. Raciocínio clínico e decisão baseada em evidências. 1. Cuidado integral e centrado na pessoa. 5. Trabalho em equipe e liderança colaborativa",
     "soft_nivel_0": "3",
     "soft_sit_0": "",
     "soft_comp_0": "",
@@ -124,7 +124,7 @@
     "decl_ia_quais": "Perplexity AI - Estruturação do dashboard interativo e acompanhamento",
     "nova_nota": "",
     "filtro_ciclo": "Todos",
-    "filtro_periodo": "5",
+    "filtro_periodo": "7",
     "cockpit_status_1": "nao_iniciado",
     "cockpit_feedback_1": "",
     "cockpit_ajuste_1": "",
@@ -627,5 +627,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 14:42:41"
+  "dataHora": "09/11/2026, 14:46:37"
 }
