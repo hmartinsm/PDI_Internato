@@ -115,7 +115,7 @@
     "decl_ia_quais": "Perplexity AI - Estruturação do dashboard interativo e acompanhamento",
     "nova_nota": "",
     "filtro_ciclo": "Todos",
-    "filtro_periodo": "Todos",
+    "filtro_periodo": "3",
     "cockpit_status_1": "nao_iniciado",
     "cockpit_feedback_1": "",
     "cockpit_ajuste_1": "",
@@ -128,47 +128,208 @@
   },
   "notas": [
     {
-      "nome": "Anatomia Humana",
+      "nome": "Anatomia Humana I",
       "periodo": 1,
       "ciclo": "Basico",
-      "enamed": "Bases",
-      "nota": 78
+      "enamed": "Cirurgia",
+      "nota": 68
     },
     {
-      "nome": "Semiologia Médica I",
-      "periodo": 3,
+      "nome": "Bioquímica",
+      "periodo": 1,
       "ciclo": "Basico",
       "enamed": "Bases",
       "nota": 85
     },
     {
-      "nome": "Farmacologia Clínica",
-      "periodo": 4,
+      "nome": "Citologia e Histologia Básica",
+      "periodo": 1,
       "ciclo": "Basico",
-      "enamed": "Clinica",
-      "nota": 71
+      "enamed": "Bases",
+      "nota": 82
     },
     {
-      "nome": "Clínica Médica I",
-      "periodo": 5,
-      "ciclo": "Clinico",
+      "nome": "Embriologia Humana",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 81
+    },
+    {
+      "nome": "Genética Aplicada a Medicina",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 83
+    },
+    {
+      "nome": "Gestão Pessoal",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 73
+    },
+    {
+      "nome": "DIC I",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 93
+    },
+    {
+      "nome": "Língua Inglesa",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 89
+    },
+    {
+      "nome": "Metodologia Científica",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 80
+    },
+    {
+      "nome": "Neuroanatomia Médica",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Cirurgia",
+      "nota": 77
+    },
+    {
+      "nome": "PFC I",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 94
+    },
+    {
+      "nome": "TH I",
+      "periodo": 1,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 86
+    },
+    {
+      "nome": "Anatomia Humana II",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Cirurgia",
+      "nota": 64
+    },
+    {
+      "nome": "Ciencias Sociais Aplicadas a Saúde",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 91
+    },
+    {
+      "nome": "Epidemiologia e Bioestatística",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 85
+    },
+    {
+      "nome": "Fisiologia Humana",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 85
+    },
+    {
+      "nome": "Histologia Aplicada a Medicina",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 72
+    },
+    {
+      "nome": "DIC II",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 84
+    },
+    {
+      "nome": "PFC II",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 97
+    },
+    {
+      "nome": "PSC I",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 85
+    },
+    {
+      "nome": "TH II",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 83
+    },
+    {
+      "nome": "Língua Inglesa II",
+      "periodo": 2,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 78
+    },
+    {
+      "nome": "Fisiologia Humana II",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 91
+    },
+    {
+      "nome": "Imunologia Aplicada a Medicina",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 84
+    },
+    {
+      "nome": "DIC III",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Urgencia",
+      "nota": 92
+    },
+    {
+      "nome": "Lingua Portuguesa",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 81
+    },
+    {
+      "nome": "Parasitologia",
+      "periodo": 3,
+      "ciclo": "Basico",
       "enamed": "Clinica",
       "nota": 84
     },
     {
-      "nome": "Pediatria I",
-      "periodo": 6,
-      "ciclo": "Clinico",
-      "enamed": "Pediatria",
-      "nota": 79.5
+      "nome": "Patologia Geral",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "Bases",
+      "nota": 91
     },
     {
-      "nome": "Urgência / LabSim",
-      "periodo": 8,
-      "ciclo": "Clinico",
-      "enamed": "Urgencia",
-      "nota": 76
+      "nome": "PFC III",
+      "periodo": 3,
+      "ciclo": "Basico",
+      "enamed": "MFC",
+      "nota": 100
     }
   ],
-  "dataHora": "08/11/2026, 20:41:17"
+  "dataHora": "08/11/2026, 21:06:20"
 }
