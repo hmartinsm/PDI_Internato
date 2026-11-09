@@ -79,9 +79,9 @@
     "disc_chav_nota_3": "98",
     "disc_chav_porque_3": "Meu primeiro contato com a área cirúrgica foi durante a matéria de \"Tecnicas Operatórias\", mas foi em clínica cirúrgica I em que eu realmente me encontrei dentro da áreas da medicina. O contato direto com o paciente, além da proatividade no tratamento dos pacientes me atraiu muito, e sinto que descobri uma área da medicina que combina comigo.",
     "disc_chav_comp_3": "2. Raciocínio clínico e decisão baseada em evidências. 1. Cuidado integral e centrado na pessoa. 5. Trabalho em equipe e liderança colaborativa",
-    "soft_nivel_0": "3",
-    "soft_sit_0": "",
-    "soft_comp_0": "",
+    "soft_nivel_0": "5",
+    "soft_sit_0": "Pacientes que perguntaram sobre mim durante periodo no posto de saúde",
+    "soft_comp_0": "Me comprometo a continuar me empenhando para que o paciente entenda seu diagnóstico, assim como seu plano de cuidados.",
     "soft_nivel_1": "3",
     "soft_sit_1": "",
     "soft_comp_1": "",
@@ -627,5 +627,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 15:57:23"
+  "dataHora": "09/11/2026, 16:00:45"
 }
