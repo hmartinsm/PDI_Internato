@@ -22,10 +22,10 @@
     "mapa_evid_6": "Tenho muita facilidade e incorporo a tecnologia no meu dia a dia (vide site criado para o projeto)",
     "mapa_nivel_7": "2",
     "mapa_evid_7": "É comum eu me negligenciar em prol das atividades acadêmicas, durante provas frequentemente tenho perda de peso e não pratico exercícios físicos, regularizando apenas após tais atividades. ",
-    "fraqueza_fam_1": "1",
-    "fraqueza_que_1": "",
-    "fraqueza_como_1": "",
-    "fraqueza_edai_1": "",
+    "fraqueza_fam_1": "4",
+    "fraqueza_que_1": "Legalidade",
+    "fraqueza_como_1": "Sempre tenho que ser lembrado ou pedir ajuda com burocracias específicas, seja ela notificações compulsórias, formulários obrigatórios e até mesmo dificuldade para achar algumas abas no sistema de prontuário eletrónico",
+    "fraqueza_edai_1": "Sempre preciso ser lembrado de burocracias, as vezes tendo que refazer e decepcionando meus preceptores em minha falta de autonomia.",
     "fraqueza_fam_2": "1",
     "fraqueza_que_2": "",
     "fraqueza_como_2": "",
@@ -618,5 +618,5 @@
       "nota": 99
     }
   ],
-  "dataHora": "09/11/2026, 00:02:16"
+  "dataHora": "09/11/2026, 00:07:15"
 }
